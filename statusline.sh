@@ -3,7 +3,7 @@
 # Adapted from github.com/kcchien/claude-code-statusline for Git Bash on Windows,
 # with the context/usage/cache/status features of github.com/Djentinga/claude-statusline.
 #
-# Line 1: <brand> model | context gradient bar + % + tokens/compact-at | prompt cache | cost | elapsed
+# Line 1: <brand> model (effort) | context gradient bar + % + tokens/compact-at | prompt cache | cost | elapsed
 # Line 2: 5h usage bar (expected) -> reset | 7d usage bar (expected)   [or enterprise credit bar]
 # Line 3: branch* | +added/-removed | dir | agent/worktree | Claude service status
 #
@@ -92,6 +92,7 @@ parsed=$(printf '%s' "$input" | jq -r '
      | if . then ((.input_tokens // 0) + (.cache_creation_input_tokens // 0)
                   + (.cache_read_input_tokens // 0)) else -1 end | num(-1)),
   (.version // "unknown"),
+  (.effort.level // ""),
   "END"
 ' 2>/dev/null | tr -d '\r') || fallback_prompt "─ │ parse error"
 
@@ -119,6 +120,7 @@ parsed=$(printf '%s' "$input" | jq -r '
   IFS= read -r reset7d
   IFS= read -r ctx_tokens
   IFS= read -r cc_version
+  IFS= read -r effort
   IFS= read -r _sentinel
 } <<< "$parsed"
 
@@ -459,6 +461,8 @@ fi
 
 # ── line 1 ────────────────────────────────────────────────────────────────────
 line1="${PURPLE}${S_BRAND}${RST} ${CYAN}${model}${RST}"
+# absent when the model doesn't support the effort parameter
+[[ -n "$effort" ]] && line1+=" ${GRAY}(${effort})${RST}"
 line1+="${SEP}${bar} ${pct_color}${pct_int}%${RST}${ctx_warn}${ctx_label}"
 line1+="${cache_section}"
 line1+="${SEP}${cost_color}${S_COST}\$${cost_fmt}${RST}"

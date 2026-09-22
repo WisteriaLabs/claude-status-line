@@ -12,7 +12,7 @@ It's plain bash + `jq`, works on macOS, Linux and Windows (Git Bash), and never 
 
 | Segment | Meaning |
 | --- | --- |
-| `◆ Opus 5` | Current model |
+| `◆ Opus 5 (high)` | Current model and its reasoning effort (`low` to `max`). The effort is hidden when the model doesn't support it. |
 | Context bar + `37%` | Context used, **scaled so 100% = the auto-compact threshold** (window size minus a 33k buffer), not the raw window. It tells you how long until compaction. Green → yellow → orange → red, with a `⚠` at 90%. |
 | `62k/167k 200k` | Tokens in context / compact threshold, plus the window size |
 | `✓ cache 4m` | Prompt cache time-to-live. Turns yellow in the last 30s and red (`✗ cache`) once cold. Hidden if Claude Code doesn't report it. |
