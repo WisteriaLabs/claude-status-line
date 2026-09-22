@@ -36,7 +36,12 @@ incident=$(curl -fsS --max-time 3 https://status.claude.com/api/v2/incidents/unr
 # carries no rate_limits (enterprise accounts bill credits instead).
 usage=null
 if [[ "$fetch_usage" == "1" ]]; then
-  token=$(jq -r '.claudeAiOauth.accessToken // empty' ~/.claude/.credentials.json 2>/dev/null | tr -d '\r')
+  # Windows/Linux keep credentials in a file; macOS keeps the same JSON in the Keychain
+  creds=$(cat ~/.claude/.credentials.json 2>/dev/null)
+  if [[ -z "$creds" ]] && command -v security >/dev/null 2>&1; then
+    creds=$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null)
+  fi
+  token=$(printf '%s' "$creds" | jq -r '.claudeAiOauth.accessToken // empty' 2>/dev/null | tr -d '\r')
   if [[ -n "$token" ]]; then
     usage=$(curl -fsS --max-time 3 https://api.anthropic.com/api/oauth/usage \
       -H "Authorization: Bearer ${token}" \
