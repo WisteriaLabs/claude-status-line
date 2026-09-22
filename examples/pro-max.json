@@ -1,0 +1,16 @@
+{
+  "model": { "display_name": "Opus 5" },
+  "version": "2.3.0",
+  "workspace": { "current_dir": "__CWD__" },
+  "context_window": {
+    "used_percentage": 31,
+    "context_window_size": 200000,
+    "current_usage": { "input_tokens": 1200, "cache_creation_input_tokens": 4100, "cache_read_input_tokens": 57300 }
+  },
+  "cost": { "total_cost_usd": 1.84, "total_lines_added": 214, "total_lines_removed": 37, "total_duration_ms": 1523000 },
+  "prompt_cache": { "warm": true, "expires_at": __NOW_PLUS_240__ },
+  "rate_limits": {
+    "five_hour": { "used_percentage": 22, "resets_at": __NOW_PLUS_10800__ },
+    "seven_day": { "used_percentage": 41, "resets_at": __NOW_PLUS_302400__ }
+  }
+}

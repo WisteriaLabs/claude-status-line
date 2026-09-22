@@ -1,0 +1,17 @@
+{
+  "model": { "display_name": "Opus 5" },
+  "version": "2.3.0",
+  "workspace": { "current_dir": "__CWD__" },
+  "agent": { "name": "code-reviewer" },
+  "context_window": {
+    "used_percentage": 81,
+    "context_window_size": 200000,
+    "current_usage": { "input_tokens": 3000, "cache_creation_input_tokens": 9000, "cache_read_input_tokens": 150500 }
+  },
+  "cost": { "total_cost_usd": 12.37, "total_lines_added": 1893, "total_lines_removed": 612, "total_duration_ms": 7384000 },
+  "prompt_cache": { "warm": true, "expires_at": __NOW_PLUS_20__ },
+  "rate_limits": {
+    "five_hour": { "used_percentage": 84, "resets_at": __NOW_PLUS_7200__ },
+    "seven_day": { "used_percentage": 63, "resets_at": __NOW_PLUS_345600__ }
+  }
+}

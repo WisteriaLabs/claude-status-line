@@ -1,0 +1,8 @@
+{
+  "incident": null,
+  "usage": {
+    "five_hour": null,
+    "seven_day": null,
+    "extra_usage": { "is_enabled": true, "utilization": 58, "used_credits": 11640, "monthly_limit": 20000, "currency": "USD" }
+  }
+}
