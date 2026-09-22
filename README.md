@@ -47,6 +47,15 @@ Context close to compaction, cache about to expire, 5h usage well ahead of pace,
 
 ![Status line on an Enterprise account](docs/enterprise.png)
 
+#### Enterprise support
+
+Lines 1 and 3 work on every plan. The credit bar on line 2 is best-effort:
+
+- **Not yet verified on a real Enterprise account.** The screenshot above comes from sample data. If your bar looks wrong, please open an issue with the contents of `$TMPDIR/claude-statusline/remote.json`, which holds usage figures and never the token.
+- **It uses an undocumented endpoint.** Claude Code doesn't pass credit usage to status lines, so the collector asks the Claude OAuth usage endpoint for it. That endpoint may change without notice. If it does, line 2 disappears but nothing else breaks.
+- **It needs a claude.ai login.** The token comes from `~/.claude/.credentials.json`, or the macOS Keychain (`Claude Code-credentials`). With an API key, Bedrock or Vertex there's no token, so line 2 is hidden.
+- **It lags a little.** Usage refreshes at most every 2 minutes, so a new session may start without line 2.
+
 ## Requirements
 
 - Claude Code
@@ -120,7 +129,7 @@ Claude Code runs `statusline.sh` every few seconds and pipes session JSON (model
 Anything that needs the network goes through `statusline-collector.sh`. When the cache in `$TMPDIR/claude-statusline/` is more than 2 minutes old, the status line spawns the collector fully detached and renders with whatever is cached right now. The collector:
 
 - fetches unresolved incidents from `status.claude.com`
-- fetches plan usage from the Claude OAuth usage endpoint, using the token Claude Code stores in `~/.claude/.credentials.json`, **only** when Claude Code's own input carries no rate limits (e.g. Enterprise). The token is sent only to `api.anthropic.com`.
+- fetches plan usage from the Claude OAuth usage endpoint, using the token Claude Code stores in `~/.claude/.credentials.json` (or the macOS Keychain), **only** when Claude Code's own input carries no rate limits (e.g. Enterprise). The token is sent only to `api.anthropic.com`.
 
 A lock directory makes sure concurrent sessions don't all fetch at once.
 
